@@ -1,0 +1,16 @@
+# api key
+api-key: 1234567890
+
+# block access point[1-10]
+block-access-point: 3
+
+# language
+language: en
+
+# Local Ban DataBase
+mysql:
+    host: localhost
+    port: 3306
+    database: mcbansjp
+    username: root
+    password: password
