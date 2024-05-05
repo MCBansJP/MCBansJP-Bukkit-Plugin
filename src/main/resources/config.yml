@@ -1,8 +1,11 @@
+# use global database
+use-global-database: false
+
 # api key
-api-key: 1234567890
+api-key: 00000000000000000000
 
 # block access point[1-10]
-block-access-point: 3
+block-access-point: 9
 
 # language
 language: en
@@ -14,3 +17,15 @@ mysql:
     database: mcbansjp
     username: root
     password: password
+
+# token
+token: 00000000000000000000
+
+# update checker
+update-checker: true
+
+#########################################################
+# DO NOT TOUCH
+#   Do not touch this option! It is a check if you are running the recent configuration version
+#
+ConfigVersion: 1

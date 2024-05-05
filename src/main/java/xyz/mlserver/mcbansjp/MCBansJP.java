@@ -7,6 +7,7 @@ import xyz.mlserver.mcbansjp.commands.LocalBanCmd;
 import xyz.mlserver.mcbansjp.commands.TempBanCmd;
 import xyz.mlserver.mcbansjp.listeners.BukkitPlayerJoinListener;
 import xyz.mlserver.mcbansjp.utils.CustomConfiguration;
+import xyz.mlserver.mcbansjp.utils.bukkit.ConfigAPI;
 
 public final class MCBansJP extends JavaPlugin {
 
@@ -20,6 +21,16 @@ public final class MCBansJP extends JavaPlugin {
 
     public static UpdateChecker getUpdateChecker() {
         return updateChecker;
+    }
+
+    private static boolean debug = false;
+
+    public static boolean isDebug() {
+        return debug;
+    }
+
+    public static void setDebug(boolean debug) {
+        MCBansJP.debug = debug;
     }
 
     @Override
@@ -38,7 +49,7 @@ public final class MCBansJP extends JavaPlugin {
         CustomConfiguration config = new CustomConfiguration(this);
         config.saveDefaultConfig();
 
-        updateCheck = config.getConfig().getBoolean("update-checker", true);
+        ConfigAPI.load(config);
 
         checkUpdate(updateCheck);
     }
@@ -63,7 +74,7 @@ public final class MCBansJP extends JavaPlugin {
                 .setDonationLink("https://github.com/sponsors/Monster2408")
         ;
 
-        final UpdateChecker.UpdateResult result = updateChecker.getResult();
+        final UpdateChecker.UpdateResult result = getUpdateChecker().getResult();
 
         switch (result) {
             case FAIL_SPIGOT:
@@ -72,24 +83,24 @@ public final class MCBansJP extends JavaPlugin {
             case UPDATE_AVAILABLE:
                 plugin.getLogger().warning("*********************************************************************************");
                 plugin.getLogger().warning("* An update to SimpleGameMode is available!");
-                plugin.getLogger().warning("* Your Version: [" + updateChecker.getCurrentVersion() + "]");
-                plugin.getLogger().warning("* Latest Version: [" + updateChecker.getAvailableVersion() + "]");
+                plugin.getLogger().warning("* Your Version: [" + getUpdateChecker().getCurrentVersion() + "]");
+                plugin.getLogger().warning("* Latest Version: [" + getUpdateChecker().getAvailableVersion() + "]");
                 plugin.getLogger().warning("*");
                 plugin.getLogger().warning("* Please update to the newest version.");
-                if (updateChecker.getPlusDownloadLink() != null) {
+                if (getUpdateChecker().getPlusDownloadLink() != null) {
                     plugin.getLogger().warning("*");
                     plugin.getLogger().warning("* Download(Plus)");
-                    plugin.getLogger().warning("*   " + updateChecker.getPlusDownloadLink());
+                    plugin.getLogger().warning("*   " + getUpdateChecker().getPlusDownloadLink());
                 }
-                if (updateChecker.getFreeDownloadLink() != null) {
+                if (getUpdateChecker().getFreeDownloadLink() != null) {
                     plugin.getLogger().warning("*");
                     plugin.getLogger().warning("* Download(Free)");
-                    plugin.getLogger().warning("*   " + updateChecker.getFreeDownloadLink());
+                    plugin.getLogger().warning("*   " + getUpdateChecker().getFreeDownloadLink());
                 }
-                if (updateChecker.getDonationLink() != null) {
+                if (getUpdateChecker().getDonationLink() != null) {
                     plugin.getLogger().warning("*");
                     plugin.getLogger().warning("* Donate");
-                    plugin.getLogger().warning("*   " + updateChecker.getDonationLink());
+                    plugin.getLogger().warning("*   " + getUpdateChecker().getDonationLink());
                 }
                 plugin.getLogger().warning("*");
                 plugin.getLogger().warning("*********************************************************************************");

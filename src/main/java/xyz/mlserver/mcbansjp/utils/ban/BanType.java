@@ -2,18 +2,19 @@ package xyz.mlserver.mcbansjp.utils.ban;
 
 public enum BanType {
 
-    LOCAL("local"),
-    GLOBAL("global"),
-    TEMP("temp");
+    GRIEFING("Griefing"),
+    HACKING("Hacking"),
+    OTHER("Other")
+    ;
 
-    private final String type;
+    private final String reason;
 
-    BanType(String type) {
-        this.type = type;
+    BanType(String reason) {
+        this.reason = reason;
     }
 
-    public String getType() {
-        return type;
+    public String getReason() {
+        return reason;
     }
 
 }

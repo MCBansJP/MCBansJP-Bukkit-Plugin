@@ -1,3 +1,20 @@
 name: MCBansJP
 version: '${project.version}'
 main: xyz.mlserver.mcbansjp.MCBansJP
+
+commands:
+    globalban:
+        description: Global Ban Command
+        usage: /<command> <player> <reason> [memo]
+        permission: mcbansjp.globalban
+        aliases: [gban]
+    localban:
+        description: Local Ban Command
+        usage: /<command> <player> <reason> [memo]
+        permission: mcbansjp.localban
+        aliases: [lban]
+    tempban:
+        description: Temp Ban Command
+        usage: /<command> <player> <time> <reason> [memo]
+        permission: mcbansjp.tempban
+        aliases: [tban]
