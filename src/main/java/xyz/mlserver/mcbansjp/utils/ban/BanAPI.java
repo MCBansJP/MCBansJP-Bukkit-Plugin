@@ -1,13 +1,16 @@
 package xyz.mlserver.mcbansjp.utils.ban;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import xyz.mlserver.logapi.LogAPI;
 import xyz.mlserver.mcbansjp.MCBansJP;
 import xyz.mlserver.mcbansjp.utils.MojangAPI;
 import xyz.mlserver.mcbansjp.utils.java.HttpAPI;
+import xyz.mlserver.mcbansjp.utils.java.JsonAPI;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -53,20 +56,22 @@ public class BanAPI {
 
         if (getApiKey() != null) {
             StringBuilder json = new StringBuilder();
+            json.append("{\"data\":");
             json.append("{");
             json.append("\"uuid\":\"").append(uuid.toString()).append("\",");
             json.append("\"name\":\"").append(playerName).append("\",");
             json.append("\"reason\":\"").append(reason.getReason()).append("\",");
             json.append("\"memo\":\"").append(memo).append("\",");
-            json.append("\"api-key\":\"").append(getApiKey()).append("\"");
+            json.append("\"token\":\"").append(getApiKey()).append("\"");
+            json.append("}");
             json.append("}");
             try {
                 String response = HttpAPI.postResult(apiUrl + "global-ban.php", json.toString());
-                if (response.contains("\"status\": \"OK\"")) {
+                LogAPI.debug(response);
+                JsonNode jsonNode = JsonAPI.parseJson(response);
+                if (jsonNode.get("status").asText().equalsIgnoreCase("success")) {
                     sender.sendMessage("§a" + playerName + " has been banned.");
                     return true;
-                } else {
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();

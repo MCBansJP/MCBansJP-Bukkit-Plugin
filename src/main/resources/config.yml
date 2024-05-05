@@ -2,7 +2,7 @@
 use-global-database: false
 
 # api key
-api-key: 00000000000000000000
+api-key: "00000000000000000000"
 
 # block access point[1-10]
 block-access-point: 9
@@ -19,7 +19,7 @@ mysql:
     password: password
 
 # token
-token: 00000000000000000000
+token: "00000000000000000000"
 
 # update checker
 update-checker: true
