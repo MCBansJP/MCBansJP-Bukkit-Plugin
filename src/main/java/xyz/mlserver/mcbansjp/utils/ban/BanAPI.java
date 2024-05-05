@@ -61,7 +61,7 @@ public class BanAPI {
             json.append("\"api-key\":\"").append(getApiKey()).append("\"");
             json.append("}");
             try {
-                String response = HttpAPI.postResult(apiUrl, json.toString());
+                String response = HttpAPI.postResult(apiUrl + "global-ban.php", json.toString());
                 if (response.contains("\"status\": \"OK\"")) {
                     sender.sendMessage("§a" + playerName + " has been banned.");
                     return true;
