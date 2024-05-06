@@ -29,6 +29,40 @@ public class BanAPI {
         return apiKey;
     }
 
+    public static boolean ban(CommandSender sender, Type type, String target, String target_uuid, BanType reason, String memo) {
+        String temp_uuid;
+        for (Player all : sender.getServer().getOnlinePlayers()) {
+            if (target.length() <= 16) {
+                if (all.getName().equalsIgnoreCase(target)) {
+                    if (type == Type.GLOBAL) return BanAPI.globalBan(sender, all.getName(), all.getUniqueId(), reason, memo);
+                    else if (type == Type.LOCAL) return BanAPI.localBan(sender, all.getName(), all.getUniqueId(), reason, memo);
+                    else if (type == Type.TEMP) return BanAPI.tempBan(sender, all.getName(), all.getUniqueId(), reason, memo);
+                }
+            } else {
+                temp_uuid = all.getUniqueId().toString().replace("-", "");
+                if (temp_uuid.equalsIgnoreCase(target_uuid.replace("-", ""))) {
+                    if (type == Type.GLOBAL) return BanAPI.globalBan(sender, all.getName(), all.getUniqueId(), reason, memo);
+                    else if (type == Type.LOCAL) return BanAPI.localBan(sender, all.getName(), all.getUniqueId(), reason, memo);
+                    else if (type == Type.TEMP) return BanAPI.tempBan(sender, all.getName(), all.getUniqueId(), reason, memo);
+                }
+            }
+        }
+        if (target.length() <= 16) {
+            if (type == Type.GLOBAL) return BanAPI.globalBan(sender, target, reason, memo);
+            else if (type == Type.LOCAL) return BanAPI.localBan(sender, target, reason, memo);
+            else if (type == Type.TEMP) return BanAPI.tempBan(sender, target, reason, memo);
+        } else {
+            temp_uuid = target.replace("-", "");
+            if (temp_uuid.equalsIgnoreCase(target_uuid.replace("-", ""))) {
+                if (type == Type.GLOBAL) return BanAPI.globalBan(sender, target, reason, memo);
+                else if (type == Type.LOCAL) return BanAPI.localBan(sender, target, reason, memo);
+                else if (type == Type.TEMP) return BanAPI.tempBan(sender, target, reason, memo);
+            }
+        }
+        sender.sendMessage("§cFailed to ban " + target + ".");
+        return false;
+    }
+
 
     public static boolean globalBan(CommandSender sender, String playerName, BanType reason, String memo) {
         UUID uuid = MojangAPI.getUUID(playerName);
@@ -81,19 +115,39 @@ public class BanAPI {
         return false;
     }
 
-    public static boolean localBan(String playerName, BanType reason) {
+    public static boolean localBan(CommandSender sender, String playerName, BanType reason, String memo) {
         UUID uuid = MojangAPI.getUUID(playerName);
-        return localBan(playerName, uuid, reason);
+        return localBan(sender, playerName, uuid, reason, memo);
     }
 
-    public static boolean localBan(UUID uuid, BanType reason) {
+    public static boolean localBan(CommandSender sender, UUID uuid, BanType reason, String memo) {
         String playerName = MojangAPI.getName(uuid.toString());
-        return localBan(playerName, uuid, reason);
+        return localBan(sender, playerName, uuid, reason, memo);
     }
 
-    public static boolean localBan(String playerName, UUID uuid, BanType reason) {
-
+    public static boolean localBan(CommandSender sender, String playerName, UUID uuid, BanType reason, String memo) {
 
         return false;
+    }
+
+    public static boolean tempBan(CommandSender sender, String playerName, BanType reason, String memo) {
+        UUID uuid = MojangAPI.getUUID(playerName);
+        return tempBan(sender, playerName, uuid, reason, memo);
+    }
+
+    public static boolean tempBan(CommandSender sender, UUID uuid, BanType reason, String memo) {
+        String playerName = MojangAPI.getName(uuid.toString());
+        return tempBan(sender, playerName, uuid, reason, memo);
+    }
+
+    public static boolean tempBan(CommandSender sender, String playerName, UUID uuid, BanType reason, String memo) {
+
+        return false;
+    }
+
+    public enum Type {
+        GLOBAL,
+        LOCAL,
+        TEMP
     }
 }

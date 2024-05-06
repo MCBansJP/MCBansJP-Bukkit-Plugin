@@ -1,10 +1,9 @@
 package xyz.mlserver.mcbansjp;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.mlserver.mcbansjp.commands.GlobalBanCmd;
-import xyz.mlserver.mcbansjp.commands.LocalBanCmd;
-import xyz.mlserver.mcbansjp.commands.TempBanCmd;
+import xyz.mlserver.mcbansjp.commands.cmds.GlobalBanCmd;
+import xyz.mlserver.mcbansjp.commands.cmds.LocalBanCmd;
+import xyz.mlserver.mcbansjp.commands.cmds.TempBanCmd;
 import xyz.mlserver.mcbansjp.listeners.BukkitPlayerJoinListener;
 import xyz.mlserver.mcbansjp.utils.CustomConfiguration;
 import xyz.mlserver.mcbansjp.utils.bukkit.ConfigAPI;

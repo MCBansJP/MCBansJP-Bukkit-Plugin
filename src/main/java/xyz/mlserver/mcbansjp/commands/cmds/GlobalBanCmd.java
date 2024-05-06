@@ -1,4 +1,4 @@
-package xyz.mlserver.mcbansjp.commands;
+package xyz.mlserver.mcbansjp.commands.cmds;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,33 +20,22 @@ public class GlobalBanCmd implements CommandExecutor {
             String reason = args[2];
             boolean success = false;
             for (int i = 3; i < args.length; i++) reason += " " + args[i];
-            if (type.equalsIgnoreCase("g") || type.equalsIgnoreCase("griefing")) {
-                return ban(sender, target, target_uuid, BanType.GRIEFING, reason);
+            if (BanType.Local_Rule.getCommandType().equalsIgnoreCase(type) || BanType.Local_Rule.getShortcutCode().equalsIgnoreCase(type)) {
+                sender.sendMessage("§cLocal Rule ban is not supported. Plese use /localban command.");
+                return true;
             } else if (type.equalsIgnoreCase("h") || type.equalsIgnoreCase("hacking")) {
-                return ban(sender, target, target_uuid, BanType.HACKING, reason);
+                return BanAPI.ban(sender, BanAPI.Type.GLOBAL, target, target_uuid, BanType.HACKING, reason);
             } else if (type.equalsIgnoreCase("o") || type.equalsIgnoreCase("other")) {
-                return ban(sender, target, target_uuid, BanType.OTHER, reason);
+                return BanAPI.ban(sender, BanAPI.Type.GLOBAL, target, target_uuid, BanType.OTHER, reason);
             } else {
+                for (BanType banType : BanType.values()) {
+                    if (banType.getCommandType().equalsIgnoreCase(type) || banType.getShortcutCode().equalsIgnoreCase(type)) {
+                        return BanAPI.ban(sender, BanAPI.Type.GLOBAL, target, target_uuid, banType, reason);
+                    }
+                }
                 sender.sendMessage("§cUsage: /gban <player|uuid> <type> [reason]");
                 return true;
             }
         }
-    }
-
-    private static boolean ban(CommandSender sender, String target, String target_uuid, BanType reason, String memo) {
-        String temp_uuid;
-        for (Player all : sender.getServer().getOnlinePlayers()) {
-            if (target.length() <= 16) {
-                if (all.getName().equalsIgnoreCase(target)) {
-                    return BanAPI.globalBan(sender, all.getName(), all.getUniqueId(), reason, memo);
-                }
-            } else {
-                temp_uuid = all.getUniqueId().toString().replace("-", "");
-                if (temp_uuid.equalsIgnoreCase(target_uuid)) {
-                    return BanAPI.globalBan(sender, all.getName(), all.getUniqueId(), reason, memo);
-                }
-            }
-        }
-        return BanAPI.globalBan(sender, target, reason, memo);
     }
 }
