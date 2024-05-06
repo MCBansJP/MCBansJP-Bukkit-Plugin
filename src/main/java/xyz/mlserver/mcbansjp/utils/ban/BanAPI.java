@@ -94,8 +94,9 @@ public class BanAPI {
             json.append("{");
             json.append("\"uuid\":\"").append(uuid.toString()).append("\",");
             json.append("\"name\":\"").append(playerName).append("\",");
-            json.append("\"reason\":\"").append(reason.getReason()).append("\",");
-            json.append("\"memo\":\"").append(memo).append("\",");
+            json.append("\"type\":\"").append("global").append("\",");
+            json.append("\"reason_type\":\"").append(reason.getReason()).append("\",");
+            json.append("\"reason\":\"").append(memo).append("\",");
             json.append("\"token\":\"").append(getApiKey()).append("\"");
             json.append("}");
             json.append("}");
